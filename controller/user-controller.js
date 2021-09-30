@@ -36,8 +36,14 @@ exports.registerUser = (req, res) => {
       });
       newUser.save((err, user) => {
           if (err) {
+              console.log(err)
               return res.status(400).json({ 'msg': err });
           }
+          if (!user) {
+              console.log('There was no user saved!')
+              return res.status(400).json({ msg: 'There was no user saved!' });
+          }
+          console.log('User registered!');
           return res.status(200).json(user);
       });
   });
