@@ -408,13 +408,13 @@ exports.deleteReply = (req, res) => {
 exports.editReply = (req, res) => {
   commentId = req.body._id;
   blogId = req.body.blogId;
-  name = req.body.name;
+  fullName = req.body.name;
   email = req.body.email;
   newComment = req.body.newComment;
 
   if(!commentId) return res.status(400).json({msg: "no commentId in request"})
   if(!blogId) return res.status(400).json({msg: "no blog _id in request"})
-  if(!name) return res.status(400).json({msg: "no name in request"})
+  if(!fullName) return res.status(400).json({msg: "no name in request"})
   if(!email) return res.status(400).json({msg: "no email in request"})
   if(!newComment) return res.status(400).json({msg: "no newComment in request"})
 
