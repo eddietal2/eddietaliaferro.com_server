@@ -1,20 +1,21 @@
 const mongoose = require('mongoose');
 
 let ProjectSchema = new mongoose.Schema({
-  date: {
-    type: Date
-  },
   title: {
     type: String
   },
-  link: {
+  url: {
     type: String
   },
-  message: {
+  description: {
     type: String
   },
   thumbnail: {
     type: String
+  },
+  visible: {
+    type: Boolean,
+    default: false
   }
 });
 

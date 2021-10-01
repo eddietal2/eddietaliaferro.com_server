@@ -99,36 +99,25 @@ exports.toggleVisibility = (req, res) => {
 exports.addProject = (req, res) => {
   console.log(req.body);
   title = req.body.title;
+  description = req.body.description;
+  url = req.body.url;
   visible = req.body.visible;
   thumbnail = req.body.thumbnail;
-  hashtags = req.body.hashtags.map(tag => ' #' + tag);
-  post = req.body.post;
-  picture_1 = req.body.picture_1;
-  picture_2 = req.body.picture_2;
-  picture_3 = req.body.picture_3;
-  picture_4 = req.body.picture_4;
-  picture_5 = req.body.picture_5;
 
-  if(!title) return res.status(400).json({msg: 'There was either no title in the request'})
+  if(!title) return res.status(400).json({msg: 'There was no title in the request'})
   if(!thumbnail) return res.status(400).json({msg: 'There was no thumbnail in the request'})
-  if(!post) return res.status(400).json({msg: 'There was either no post in the request'})
+  if(!description) return res.status(400).json({msg: 'There was no description in the request'})
+  if(!url) return res.status(400).json({msg: 'There was no url in the request'})
   // picture = req.body.picture;
 
   // made a new Project object and save it
 
   let newProject = Project({
     title,
-    post,
+    description,
     visible,
-    hashtags,
-    thumbnail,
-    picture_1,
-    picture_2,
-    picture_3,
-    picture_4,
-    picture_5,
-    date: Date.now()
-  })
+    url,
+    thumbnail  })
 
    newProject.save((err, project) => {
     if(err) return res.status(400).json(err);
@@ -165,28 +154,17 @@ exports.editProject = (req, res) => {
   console.log(req.body);
   id = req.body.id;
   title = req.body.title;
-  visible = req.body.visible;
+  url = req.body.url;
   thumbnail = req.body.thumbnail;
-  hashtags = req.body.hashtags.map(tag => ' #' + tag);
-  post = req.body.post;
-  picture_1 = req.body.picture_1;
-  picture_2 = req.body.picture_2;
-  picture_3 = req.body.picture_3;
-  picture_4 = req.body.picture_4;
-  picture_5 = req.body.picture_5;
+  description = req.body.description;
 
   Project.findOneAndUpdate(
     id,
     { $set:
       { 'title': title,
         'thumbnail': thumbnail,
-        'hashtags': hashtags,
-        'post': post,
-        'picture_1': picture_1,
-        'picture_2': picture_2,
-        'picture_3': picture_3,
-        'picture_4': picture_4,
-        'picture_5': picture_5,
+        'url': url,
+        'description': description,
       }
     },
     { new: true },

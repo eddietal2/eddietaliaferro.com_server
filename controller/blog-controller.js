@@ -203,11 +203,11 @@ exports.editBlog = (req, res) => {
 exports.addComment = (req, res) => {
   // blogId
   // user email
-  const date = Date.now()
-  const blogId = req.body.id;
-  const email = 'eddielacrosse2@gmail.com';
-  const name = 'Eddie Taliaferro';
-  const comment = 'This is a comment.';
+   let date = Date.now()
+   let blogId = req.body.id;
+   let email = req.body.email;
+   let name = req.body.name;
+   let comment = req.body.comment;
   // const email = req.body.email;
   // const name = req.body.name;
   // const comment = req.body.comment;
