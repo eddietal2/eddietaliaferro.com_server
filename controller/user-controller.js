@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/default.json');
 
 function createToken(user) {
-  return jwt.sign({ id: user.id, email: user.email }, config.jwtSecret, {
+  return jwt.sign({ id: user.id, email: user.email, fullName: user.fullName, picture: user.picture }, config.jwtSecret, {
       expiresIn: 200 // 86400 expires in 24 hours
     });
 }
@@ -71,6 +71,7 @@ exports.loginUser = (req, res) => {
                   token: createToken(user),
                   fullName: user.fullName,
                   picture: user.picture,
+                  email: user.email
               });
           } else {
               return res.status(400).json({ msg: 'The email and password don\'t match.' });
@@ -125,7 +126,7 @@ exports.loginAdmin = (req, res) => {
     return res.status(400).json({msg: 'This user is not the admin! This person is not Eddie!!!!!!'})
   }
 
-  User.findOne({ email: req.body.email }, 
+  User.findOne({ email: req.body.email },
     (err, user) => {
         console.log('Loggin in:')
         console.log(user);
@@ -145,6 +146,7 @@ exports.loginAdmin = (req, res) => {
                 token: createToken(user),
                 fullName: user.fullName,
                 picture: user.picture,
+                email: user.email
               });
           } else {
               return res.status(400).json({ msg: 'The email and password don\'t match.' });

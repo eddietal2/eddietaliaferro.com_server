@@ -207,6 +207,7 @@ exports.addComment = (req, res) => {
    let blogId = req.body.id;
    let email = req.body.email;
    let name = req.body.name;
+   let picture = req.body.picture;
    let comment = req.body.comment;
   // const email = req.body.email;
   // const name = req.body.name;
@@ -217,6 +218,7 @@ exports.addComment = (req, res) => {
     blogId,
     email,
     name,
+    picture,
     comment
   }
 
@@ -234,34 +236,33 @@ exports.addComment = (req, res) => {
       }
       if(!blog) return res.status(400).json({msg: 'There was no blog with that id.'})
       if(blog) {
-        return res.status(200).json({msg: `Comment has been added by ${name} on blog titled '${blog.title}'`})
+        return res.status(200).json({msg: `Comment has been added by ${name} on blog titled '${blog.title}'`,
+        comments: blog.comments})
       }
     }
   )
 }
 exports.deleteComment = (req, res) => {
-  blogId = req.body.blogID;
-  commentId = req.body.commentID;
-  const email = 'eddielacrosse2@gmail.com';
-  const name = 'Eddie Taliaferro';
-  const reply = 'This is a reply.';
-  // email = req.body.email;
-  // name = req.body.name;
+  console.log(req.body);
+  blogID = req.body.blogID;
+  commentID = req.body.commentID;
+  title = req.body.title;
+  userFullName = req.body.userFullName;
 
-  if(!blogID) return res.status(400).json({msg: 'there was no blogId in the request'})
+  if(!blogID) return res.status(400).json({msg: 'there was no blogID in the request'})
   if(!commentID) return res.status(400).json({msg: 'there was no _id in the request'})
-  if(!email) return res.status(400).json({msg: 'there was no email in the request'})
 
   Blog.findByIdAndUpdate(
-    blogId,
-    {$pull: {comments: {_id: commentId}}},
+    blogID,
+    {$pull: {comments: {_id: commentID}}},
     {new: true},
     (err, blog) => {
       if(err) return res.status(400).json(err)
       if(!blog) return res.status(400).json({msg: 'there was no blogId in the request'})
       if(blog) {
         console.log('Comment is being deleted')
-        return res.status(400).json({msg: `Comment is being deleted by ${name} on blog '${blog.title}'`})
+        return res.status(200).json({msg: `Comment is being deleted by ${userFullName} on blog '${blog.title}'`,
+        comments: blog.comments})
       }
     }
   )

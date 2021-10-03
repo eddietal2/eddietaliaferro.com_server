@@ -10,10 +10,10 @@ router.post('/toggle-visibility', blogController.toggleVisibility)
 router.post('/delete-blog', blogController.deleteBlog)
 router.post('/edit-blog', blogController.editBlog)
 router.post('/add-comment', blogController.addComment)
-router.delete('/delete-comment', blogController.deleteComment)
+router.post('/delete-comment', blogController.deleteComment)
 router.put('/edit-comment', blogController.editComment)
 router.post('/add-reply', blogController.addReply)
-router.delete('/delete-reply', blogController.deleteReply)
+router.post('/delete-reply', blogController.deleteReply)
 router.put('/edit-reply', blogController.editReply)
 
 
