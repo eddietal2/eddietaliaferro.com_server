@@ -1,5 +1,23 @@
 const mongoose = require('mongoose');
 
+let ReplySchema = new mongoose.Schema({
+  date: {
+    type: Date
+  },
+  reply: {
+    type: String
+  },
+  fullName: {
+    type: String
+  },
+  picture: {
+    type: String
+  },
+  email: {
+    type: String
+  }
+});
+
 let CommentSchema = new mongoose.Schema({
   date: {
     type: Date
@@ -17,26 +35,11 @@ let CommentSchema = new mongoose.Schema({
     type: String
   },
   replies: {
-    type: Array
+    type: [ReplySchema],
+    default: []
   },
 });
-let ReplySchema = new mongoose.Schema({
-  date: {
-    type: Date
-  },
-  reply: {
-    type: String
-  },
-  name: {
-    type: String
-  },
-  picture: {
-    type: String
-  },
-  email: {
-    type: String
-  }
-});
+
 
 let BlogSchema = new mongoose.Schema({
   title: {
@@ -81,3 +84,5 @@ let BlogSchema = new mongoose.Schema({
 })
 
 module.exports = Blog = mongoose.model('Blog', BlogSchema);
+// module.exports = Comment = mongoose.model('Comment', CommentSchema);
+// module.exports = Reply = mongoose.model('Reply', ReplySchema);

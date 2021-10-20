@@ -88,7 +88,7 @@ const uploadPicture = multer({
             console.log('Data from uploading to S3 Bucket: ');
             console.log(data);
 
-            let objectUrl = 'https://eddietaliaferro.com.s3.us-east-2.amazonaws.com/blog-pictures/'+targetName;
+            let objectUrl = 'https://eddietaliaferro-com.s3.us-east-2.amazonaws.com/blog-pictures/'+targetName;
 
             // Remove file from profile-picture-uploads directory
             fs.unlink(source, () => {
@@ -140,7 +140,7 @@ const uploadPicture = multer({
             console.log('Data from uploading to S3 Bucket: ');
             console.log(data);
 
-            let objectUrl = 'https://eddietaliaferro.com.s3.us-east-2.amazonaws.com/blog-thumbnails/'+targetName;
+            let objectUrl = 'https://eddietaliaferro-com.s3.us-east-2.amazonaws.com/blog-thumbnails/'+targetName;
 
             // Remove file from profile-picture-uploads directory
             fs.unlink(source, () => {
@@ -192,7 +192,7 @@ const uploadPicture = multer({
             console.log('Data from uploading to S3 Bucket: ');
             console.log(data);
 
-            let objectUrl = 'https://eddietaliaferro.com.s3.us-east-2.amazonaws.com/project-thumbnails/'+targetName;
+            let objectUrl = 'https://eddietaliaferro-com.s3.us-east-2.amazonaws.com/project-thumbnails/'+targetName;
 
             // Remove file from profile-picture-uploads directory
             fs.unlink(source, () => {
@@ -244,7 +244,7 @@ const uploadPicture = multer({
             console.log('Data from uploading to S3 Bucket: ');
             console.log(data);
 
-            let objectUrl = 'https://eddietaliaferro.com.s3.us-east-2.amazonaws.com/user-profile-pictures/'+targetName;
+            let objectUrl = 'https://eddietaliaferro-com.s3.us-east-2.amazonaws.com/user-profile-pictures/'+targetName;
 
             // Remove file from profile-picture-uploads directory
             fs.unlink(source, () => {

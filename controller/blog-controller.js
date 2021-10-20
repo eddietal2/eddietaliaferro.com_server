@@ -201,17 +201,13 @@ exports.editBlog = (req, res) => {
   )
 }
 exports.addComment = (req, res) => {
-  // blogId
-  // user email
+   console.log(req.body);
    let date = Date.now()
    let blogId = req.body.id;
-   let email = req.body.email;
+   let email = req.body.userEmail;
    let name = req.body.name;
    let picture = req.body.picture;
    let comment = req.body.comment;
-  // const email = req.body.email;
-  // const name = req.body.name;
-  // const comment = req.body.comment;
 
   let newComment = {
     date,
@@ -269,48 +265,43 @@ exports.deleteComment = (req, res) => {
 
 }
 exports.editComment = (req, res) => {
-  commentId = req.body._id;
-  blogId = req.body.blogId;
-  name = req.body.name;
-  email = req.body.email;
-  newComment = req.body.newComment;
+  commentID = req.body.commentID;
+  blogID = req.body.blogID;
+  comment = req.body.comment;
 
-  if(!commentId) return res.status(400).json({msg: "no commentId in request"})
-  if(!blogId) return res.status(400).json({msg: "no blog _id in request"})
-  if(!name) return res.status(400).json({msg: "no name in request"})
-  if(!email) return res.status(400).json({msg: "no email in request"})
-  if(!newComment) return res.status(400).json({msg: "no newComment in request"})
+  if(!commentID) return res.status(400).json({msg: "no commentID in request"})
+  if(!blogID) return res.status(400).json({msg: "no blogID in request"})
+  if(!comment) return res.status(400).json({msg: "no updated comment in request"})
 
   Blog.findOneAndUpdate(
-    {_id: blogId, 'comments._id': commentId},
-    { $set: {'comments.$.comment': newComment} },
+    {_id: blogID, 'comments._id': commentID},
+    { $set: {'comments.$.comment': comment} },
     { new: true },
     (err, blog) => {
       if(err) return res.status(400).json(err)
       if(!blog) return res.status(400).json({msg: 'There was no blog with that id'})
-      console.log(`Editing comment ${commentId}`)
-      return res.status(400).json({msg: `Edited comment in blog ${blog.title} with _id ${commentId}`, blog})
+      console.log(`Editing comment ${commentID}`)
+      return res.status(200).json({msg: `Edited comment in blog ${blog.title} with _id ${commentID}`, blog})
     }
   )
 }
 exports.addReply = (req, res) => {
-  // blogId
-  // user email
   const date = Date.now()
   const blogID = req.body.blogID;
   const commentID = req.body.commentID;
-  const email = 'eddielacrosse2@gmail.com';
-  const name = 'Eddie Taliaferro';
-  const reply = 'This is a reply.';
-  // const email = req.body.email;
-  // const name = req.body.name;
-  // const comment = req.body.comment;
+  const email = req.body.email;
+  const fullName = req.body.fullName;
+  const picture = req.body.picture;
+  const reply = req.body.reply;
 
   let newReply = {
+    blogID,
+    commentID,
     date,
     email,
-    name,
-    reply
+    reply,
+    fullName,
+    picture
   }
 
    Blog.findById(
@@ -350,84 +341,86 @@ exports.addReply = (req, res) => {
                      }
                      if ( !blog ) return res.status(400).json({ message: 'there were no blogs with this ID' });
                      if (blog) {
-                        // for (comment of post['comments']) {
-                        //   console.log('Replies for this comment:\n', comment['replies'])
-                        // }
-                        return res.status(200).json({
-                        message: 'Reply has been added',
-                        // post: postID,
-                        // comment: commentID,
-                        // userEmail: post.comments[i].userEmail,
-                        // userFullName: userFullName,
-                        // userProfilePicture: userProfilePicture,
-                        // comments: post.comments,
-                        // replies: post.comments[i].replies,
-                        // newReply: newReply._id
-                     });
+                        for (let i = 0; i < blog.comments.length; i++) {
+                          if(blog.comments[i]._id == commentID) {
+                            return res.status(200).json({
+                              message: 'Reply has been added',
+                              replies: blog.comments[i].replies
+                              });
+                          }
+                        }
                    }
 
                   })
                 }
           }
-
         }
       }
 
      }
    )
-
-  
 }
 exports.deleteReply = (req, res) => {
-  blogId = req.body.blogID;
-  commentId = req.body.commentID;
-  const email = 'eddielacrosse2@gmail.com';
-  const name = 'Eddie Taliaferro';
-  const reply = 'This is a reply.';
-  // email = req.body.email;
-  // name = req.body.name;
+  console.log(req.body)
+  blogID = req.body.blogID;
+  commentID = req.body.commentID;
+  replyID = req.body.replyID;
 
   if(!blogID) return res.status(400).json({msg: 'there was no blogId in the request'})
   if(!commentID) return res.status(400).json({msg: 'there was no _id in the request'})
-  if(!email) return res.status(400).json({msg: 'there was no email in the request'})
+  if(!replyID) return res.status(400).json({msg: 'there was no replyID in the request'})
 
   Blog.findByIdAndUpdate(
-    blogId,
-    {$pull: {comments: {_id: commentId}}},
+    { _id: blogID, 'comments._id': commentID },
+    { $pull: {'comments.$[].replies': {'_id': replyID} }},
     {new: true},
     (err, blog) => {
-      if(err) return res.status(400).json(err)
-      if(!blog) return res.status(400).json({msg: 'there was no blogId in the request'})
+      if(err) {
+        console.log(err);
+        return res.status(400).json(err);
+      }
+      if(!blog) return res.status(400).json({msg: 'there was no blogID in the request'})
       if(blog) {
-        console.log('Comment is being deleted')
-        return res.status(400).json({msg: `Comment is being deleted by ${name} on blog '${blog.title}'`})
+        console.log('Reply is being deleted')
+        console.log(blog.comments);
+        for (let i = 0; i < blog.comments.length; i++) {
+          if(blog.comments[i].id === commentID) {
+            return res.status(200).json({
+              msg: `Reply is being deleted on blog '${blog.title}'`,
+              replies: blog.comments[i].replies,
+          })
+
+          }
+        }
+        
       }
     }
   )
 
 }
 exports.editReply = (req, res) => {
-  commentId = req.body._id;
-  blogId = req.body.blogId;
-  fullName = req.body.name;
-  email = req.body.email;
-  newComment = req.body.newComment;
+  commentID = req.body.commentID;
+  blogID = req.body.blogID;
+  replyID = req.body.replyID;
+  reply = req.body.reply;
 
-  if(!commentId) return res.status(400).json({msg: "no commentId in request"})
-  if(!blogId) return res.status(400).json({msg: "no blog _id in request"})
-  if(!fullName) return res.status(400).json({msg: "no name in request"})
-  if(!email) return res.status(400).json({msg: "no email in request"})
-  if(!newComment) return res.status(400).json({msg: "no newComment in request"})
+  if(!commentID) return res.status(400).json({msg: "no commentID in request"})
+  if(!blogID) return res.status(400).json({msg: "no blogID in request"})
+  if(!replyID) return res.status(400).json({msg: "no replyID in request"})
+  if(!reply) return res.status(400).json({msg: "no reply in request"})
 
   Blog.findOneAndUpdate(
-    {_id: blogId, 'comments._id': commentId},
-    { $set: {'comments.$.comment': newComment} },
+    {_id: blogID, 'comments.replies._id': replyID},
+    { $set: {'comments.$[].replies.$.reply': reply}},
     { new: true },
     (err, blog) => {
-      if(err) return res.status(400).json(err)
+      if(err) {
+        console.log(err)
+        return res.status(400).json(err)
+      }
       if(!blog) return res.status(400).json({msg: 'There was no blog with that id'})
-      console.log(`Editing comment ${commentId}`)
-      return res.status(400).json({msg: `Edited comment in blog ${blog.title} with _id ${commentId}`, blog})
+      console.log(`Editing comment ${commentID}`)
+      return res.status(200).json({msg: `Edited comment in blog ${blog.title} with _id ${commentID}`, blog})
     }
   )
 }
