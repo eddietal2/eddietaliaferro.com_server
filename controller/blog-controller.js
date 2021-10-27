@@ -103,6 +103,11 @@ exports.addBlog = (req, res) => {
   thumbnail = req.body.thumbnail;
   hashtags = req.body.hashtags.map(tag => ' #' + tag);
   post = req.body.post;
+  code_1 = req.body.code_1;
+  code_2 = req.body.code_2;
+  code_3 = req.body.code_3;
+  code_4 = req.body.code_4;
+  code_5 = req.body.code_5;
   picture_1 = req.body.picture_1;
   picture_2 = req.body.picture_2;
   picture_3 = req.body.picture_3;
@@ -122,6 +127,11 @@ exports.addBlog = (req, res) => {
     visible,
     hashtags,
     thumbnail,
+    code_1,
+    code_2,
+    code_3,
+    code_4,
+    code_5,
     picture_1,
     picture_2,
     picture_3,
@@ -162,6 +172,7 @@ exports.deleteBlog = (req, res) => {
   )
 }
 exports.editBlog = (req, res) => {
+  console.clear();
   console.log(req.body);
   id = req.body.id;
   title = req.body.title;
@@ -169,6 +180,11 @@ exports.editBlog = (req, res) => {
   thumbnail = req.body.thumbnail;
   hashtags = req.body.hashtags.map(tag => ' #' + tag);
   post = req.body.post;
+  code_1 = req.body.code_1;
+  code_2 = req.body.code_2;
+  code_3 = req.body.code_3;
+  code_4 = req.body.code_4;
+  code_5 = req.body.code_5;
   picture_1 = req.body.picture_1;
   picture_2 = req.body.picture_2;
   picture_3 = req.body.picture_3;
@@ -176,12 +192,17 @@ exports.editBlog = (req, res) => {
   picture_5 = req.body.picture_5;
 
   Blog.findOneAndUpdate(
-    id,
+    {_id: id},
     { $set:
       { 'title': title,
         'thumbnail': thumbnail,
         'hashtags': hashtags,
         'post': post,
+        'code_1': code_1,
+        'code_2': code_2,
+        'code_3': code_3,
+        'code_4': code_4,
+        'code_5': code_5,
         'picture_1': picture_1,
         'picture_2': picture_2,
         'picture_3': picture_3,
@@ -191,7 +212,10 @@ exports.editBlog = (req, res) => {
     },
     { new: true },
     (err, blog) => {
-      if(err) return res.status(400).json(err)
+      if(err) {
+        console.log(err);
+        return res.status(400).json(err)
+      }
       if(!blog) return res.status(400).json({msg: 'There was no blog with that id'})
       console.log(`Editing _id ${id}`)
       if(blog) {

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="150px" height="150px" viewBox="0 0 150 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>gold-logo</title>
+    <defs>
+        <filter x="-16.3%" y="-12.0%" width="130.6%" height="124.0%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <linearGradient x1="20.1762363%" y1="86.5297241%" x2="45.3088656%" y2="1.29235859%" id="linearGradient-2">
+            <stop stop-color="#907E55" offset="0%"></stop>
+            <stop stop-color="#D8CCA8" offset="30.4297553%"></stop>
+            <stop stop-color="#938159" offset="68.2899919%"></stop>
+            <stop stop-color="#D2C5A1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="19.550668%" y1="72.1392231%" x2="64.2449952%" y2="43.5413521%" id="linearGradient-3">
+            <stop stop-color="#EEE8D3" offset="0%"></stop>
+            <stop stop-color="#907E55" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="gold-logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logo-2-copy" filter="url(#filter-1)" transform="translate(33.000000, 25.000000)" fill="url(#linearGradient-2)" fill-rule="nonzero" stroke="url(#linearGradient-3)" stroke-width="3">
+            <polygon id="Path" transform="translate(42.000000, 50.000000) scale(-1, 1) translate(-42.000000, -50.000000) " points="0 100 84 100 68 80.8751687 17.5567465 80.8751687 17.5567465 57.5027468 59 57.5027468 59 47.9364619 59 40.5928526 17.5567465 40.5928526 17.5567465 19.846393 68 19.846393 84 0 0 6.66133815e-16"></polygon>
+        </g>
+    </g>
+</svg>

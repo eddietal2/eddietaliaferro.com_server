@@ -3,7 +3,7 @@ const Comment = require('../models/blog.model');
 const Reply = require('../models/blog.model');
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
-
+const nodemailer = require('nodemailer');
 const config = require('../config/default.json');
 
 function createToken(user) {
@@ -356,11 +356,14 @@ exports.updateUserProfile = (req, res) => {
     });
 }
 exports.checkIfEmailExists = (req, res) => {
-    console.log(req.body);
     let email = req.body.email;
     User.findOne(
         {email: email},
         (err, user) => {
+          console.clear()
+          console.log(req.body);
+          console.log('This is the user: ')
+          console.log(user)
             if(err) {
                 console.log(err);
                 return res.status(400).json({
@@ -384,4 +387,57 @@ exports.checkIfEmailExists = (req, res) => {
             }
         }
     )
+}
+exports.sendCode = (req, res) => {
+  console.clear();
+  console.log(req.body);
+  let code = req.body.code;
+  let email = req.body.email;
+  // Set transport service which will send the emails
+  var transporter =  nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+          user: 'eddielacrosse2@gmail.com',
+          pass: 'taliaferro2',
+      },
+      debug: true, // show debug output
+      logger: true // log information in console
+  });
+
+//  configuration for email details
+ const mailOptions = {
+  from: 'eddielacrosse2@gmail.com', // sender address
+  to: `${email}`, // list of receivers
+  subject: 'EddieTaliaferro.com Registration Code',
+  html:
+  `
+    <img
+      style="width: 100px; margin: 35px 0 20px"
+      src="https://eddietaliaferro-com.s3.us-east-2.amazonaws.com/logos-and-default-profile-picture/002001635260539420_picture.png" />
+    <h3 style="
+      font-size: 1.4em;
+      color: #333;
+    ">Here is your 6 digit code:</h3>
+    <p style="
+      background: #1d071f;
+      border-radius: 100px;
+      border: 2px solid #3cf63c;
+      width: 200px;
+      color: #d8cca8;
+      padding: 0.5em;
+      text-align: center;
+      font-size: 2em;
+      letter-spacing: 11px;">${code}</p>`,
+  };
+
+ transporter.sendMail(mailOptions, function (err, info) {
+  if(err) {
+    console.log(err)
+    return res.status(400).json(err);
+  }
+  else {
+    console.log(info);
+    return res.status(200).json(info)
+  }
+ });
 }

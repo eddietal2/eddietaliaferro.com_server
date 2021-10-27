@@ -10,6 +10,9 @@ let ProjectSchema = new mongoose.Schema({
   description: {
     type: String
   },
+  summary: {
+    type: String
+  },
   thumbnail: {
     type: String
   },

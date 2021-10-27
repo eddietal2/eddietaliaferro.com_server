@@ -66,6 +66,21 @@ let BlogSchema = new mongoose.Schema({
     type: [CommentSchema],
     default: []
   },
+  code_1: {
+    type: String,
+  },
+  code_2: {
+    type: String,
+  },
+  code_3: {
+    type: String,
+  },
+  code_4: {
+    type: String,
+  },
+  code_5: {
+    type: String,
+  },
   picture_1: {
     type: String,
   },
