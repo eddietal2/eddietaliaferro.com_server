@@ -22,11 +22,26 @@ exports.getProjectInfo = (req, res) => {
 }
 exports.getLatestProjectPosts = (req, res) => {
   Project.find((err, projects) => {
-    // console.log(projects)
-    // Get the last three projects to be put in the projects collection
-    console.log('Getting Latests Projects...')
-    console.log(projects.slice(0, 2))
-    res.json(projects.slice(0, 3))
+    if(err) {
+      console.log(err);
+      return res.status(400).json(err);
+    }
+    if(!projects) {
+      console.log('There were no projects');
+      return res.status(400).json({msg: 'There were no projects'});
+    }
+    if(projects) {
+      console.clear();
+      console.log('Getting Latests Projects...')
+      let formattedProjects = [];
+      let visibileProjects = projects.reverse().filter(project => {
+        console.log(project.visible)
+        if (project.visible) {
+          formattedProjects.push(project)
+        }
+       })
+      return res.status(200).json(formattedProjects.slice(0, 3))
+    }
   })
 }
 exports.toggleVisibility = (req, res) => {

@@ -22,11 +22,27 @@ exports.getBlogInfo = (req, res) => {
 }
 exports.getLatestBlogPosts = (req, res) => {
   Blog.find((err, blogs) => {
-    // console.log(blogs)
-    // Get the last three blogs to be put in the blogs collection
-    console.log('Getting Latests Blogs...')
-    console.log(blogs.slice(0, 2))
-    res.json(blogs.slice(0, 3))
+    if(err) {
+      console.log(err);
+      return res.status(400).json(err);
+    }
+    if(!blogs) {
+      console.log('There were no blogs');
+      return res.status(400).json({msg: 'There were no blogs'});
+    }
+    if(blogs) {
+      console.clear();
+      console.log('Getting Latests Blogs...');
+      let formattedBlogs = [];
+      let visibileBlogs = blogs.reverse().filter(blog => {
+        console.log(blog.visible)
+        if (blog.visible) {
+          formattedBlogs.push(blog)
+        }
+       })
+       console.log(formattedBlogs)
+       return res.status(200).json(formattedBlogs.slice(0, 3))
+    }
   })
 }
 exports.toggleVisibility = (req, res) => {
