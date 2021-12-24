@@ -18,7 +18,9 @@ const pictureRoute = require('./routes/pictures.route');
 // Configure Environment Variables
 dotenv.config();
 
-console.log(process.env.DB_HOST_DEV)
+console.log('Connecting to:n');
+console.log(process.env.DB_HOST_PROD);
+
 
 // JSON Web Token config
 // use config module to get the privatekey, if no private key set, end the application
@@ -31,7 +33,7 @@ mongoose
   .set('useCreateIndex', true)
   .set('useFindAndModify', false)
 
-  .connect(process.env.DB_HOST_DEV, {
+  .connect(process.env.DB_HOST_PROD, {
     useNewUrlParser: true, useUnifiedTopology: true
   })
 
@@ -39,10 +41,11 @@ mongoose
 
   .catch(err => console.log(err))
 
-// Add middleware + routes
+// Middleware
 app.use(cors());
 app.use(express.json())
 
+// API Routes
 app.use("/blog", blogRoute);
 app.use("/contact", contactRoute);
 app.use("/donate", donateRoute);
@@ -51,5 +54,5 @@ app.use("/user", userRoute);
 app.use("/pictures", pictureRoute);
 
 // Listen on port...
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
 app.listen(port, () => console.log(`Listening on port ${port}`))
